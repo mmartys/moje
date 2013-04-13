@@ -1,0 +1,3 @@
+# not necessary - gitignore_global should work
+.class
+.java~
