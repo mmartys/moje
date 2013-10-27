@@ -1,0 +1,23 @@
+IE hacking:
+=========
+width:20px;#width:23px:_width:20px;
+FF applies the first width; IE7 applies the second one and IE6 applies the third one. This method works on all the CSS attributes too.
+
+div {
+zoom: 1 ;
+}
+
+* {position: relative; zoom: 1;}
+---
+legendary vertical-align for div:
+====
+For other elements, aligning the contents of a box vertically in the middle of the it can be a bit of a fine art. There are several techniques:
+1) Use display:table-cell; to make the element simulate a table cell, and then use vertical-align. This works, but may have unintended consequences (there are other attributes of table cells that you may not want to simulate).
+2) For single lines of text, simply make the line-height the same as the height of the entire box. You probably won't even need vertical-align for this.
+3) If you know the height of the element you want to vertically align, you can position it to 50% minus half its height, like this:
+
+position:absolute;
+top:50%;
+height:200px;
+margin-top:-100px; /* half the height */
+---
