@@ -1,0 +1,198 @@
+http://git-scm.com/book
+http://gitready.com
+http://think-like-a-git.net
+http://http://gitref.org/
+blog.piotrnalepa.pl
+intro & YT:
+CVS jest glupi i zly http://www.youtube.com/watch?v=4XpnKHJAok8 (Linus: jesli lubicie CVSa to nie powinno was tu byc - powinniscie byc w zakladzie psychiatrycznym)
+another good YT (github): http://www.youtube.com/watch?v=ZDR433b0HJY
+========================
+- distributed (very hard to lost whole system)
+- cloning - kind of local repo - means very fast!
+- (almost) never removes data, doesn't modify history
+- if you are familiar and comfortable with RCS or any classif version control - you will hate git! it has completely different approach
+- don't think how to do with git the same I do in CVS - git rethings everything since the begnining
+- snapshots not paatches
+- is not as file oriented as RCS (nothing changed in CVS or svn)
+- file based delta storage, snpshot of dir - something like storing Manifest (he says similar to posix)
+- something like storing it in key-value database (in fact proprietary) with hashcodes, e.g. give me value (file content? for given hashcode)
+
+1. Set up
+install it (e.g. with yum)
+
+git config --global user.name "Your Name Here"
+# Sets the default name for git to use when you commit
+
+git config --global user.email "your_email@example.com"
+# Sets the default email for git to use when you commit
+
+git config --global credential.helper cache
+# Set git to use the credential memory cache (since git 1.7.10)
+
+By default git will cache your password for 15 minutes. You can change this if you like.
+
+git config --global credential.helper 'cache --timeout=3600'
+# Set the cache to timeout after 1 hour (setting is in seconds)
+
+global  git ignore:
+git config --global core.excludesfile ~/.gitignore_global
+own aliases e.g:
+git config --global alias.lol "log --oneline --graph --decorate"
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+
+my not necessary
+git config --global alias.pu pull
+git config --global alias.ps push
+git config --global alias.fe fetch
+
+useful loging:
+git log origin/master ^master - incoming changes, ktore nie sa jeszcze zsynchronizowane
+git log master ^origin/master - moje lokalne commity ktore nie byly pushniete!
+git log -p - generuje patch ktory byl robiony
+ogoleni:
+git log branch ^branch2 - commity ktore sa w jednym branchu a nie ma ich w drugim np cos co nie poszlo do mastera:
+git log branch ^master
+
+2. Create repo
+mkdir ~/Hello-World
+# Creates a directory for your project called "Hello-World" in your user directory
+
+cd ~/Hello-World
+# Changes the current working directory to your newly created director
+
+git init
+# Sets up the necessary Git files
+
+# Initialized empty Git repository in /Users/you/Hello-World/.git/
+
+touch README
+# Creates a file called "README" in your Hello-World directory
+
+3. Commit
+
+git add README
+# Stages your README file, adding it to the list of files to be committed
+
+git commit -m 'first commit'
+# Commits your files, adding the message "first commit"
+
+4. Push the commit
+git remote add origin https://github.com/username/Hello-World.git
+# Creates a remote named "origin" pointing at your GitHub repository
+
+git push origin master
+# Sends your commits in the "master" branch to GitHub
+
+4.1. push sharing tips
+By default, the git push command doesn’t transfer tags to remote servers. Use git push origin [tagname] or if you have many tags: git push --tags
+or pushing branch:
+git push origin
+push robi kupe innych rzeczy jak usuwanie branchy czy tagow ":" np tag:
+git push origin :v0.01
+
+5. branch (my test branches are beta1, beta2,...)
+detached HEAD?
+listing branches:
+- local: just git branch
+- remote: git branch -r
+- all git branch -a
+checkout to branch:
+git checkout branch_name (switch miedzy lokalnymi branchami)
+git checkout origin/master -- path/to/file - checkout poszczegolnego pliku z brancha!
+a po tym najlepiej zresetowac head, zeby zmiany w tym pilku weszly do diffa!:
+git reset HEAD  -- path/to/file
+git checkout -b  - tworzy nowe branche jako checkout ze zdalengo repo?)
+
+6. tag (my test tags are B1,  B2, T1...)
+git taggs commit not file!
+checkout to tag - HEADLESS mode! (see git branch) after eg. git checkout B2
+version prior to given tag: git checkout B2^ or git checkout B2~1 (two versions back: git checkout B2~2 and so on)
+git nie wysyla tagow do remote by default, trzeba np
+git push origin --tags
+zalecany jest annotated tag czyli
+git tag -a v0.01 -m "moj annotowany tag 0,01"
+git show v1.2
+checkout do taga powoduje tryb detached HEAD (bezglowie)! wiec pasowalo by chyba taki checkout robic do nowego brancha
+usuwwanie taga zdalnego, lokalny zostanie:
+git push origin :v0.01
+usuwanie taga lokalnego:
+git tag -d v0.01
+
+7. diff
+e.g.: two last commits: git diff HEAD~2 -- LicenseServlet.java or  git diff HEAD^^ -- LicenseServlet.java
+e.g.: git diff HEAD~7 -- LicenseServlet.java (because one fill can be missing in  some commits!!!!)
+
+8. git update
+how to do update? impossible? e.g. files not added:
+git ls-files --others
+pull vs fetch: In the simplest terms, git pull does a git fetch followed by a git merge
+
+9 cherry-pick
+
+A stash (zostawiac na pozniej)
+
+Lista przydatnych komend GIT
+
+git initInicjalizuje repozytorium GIT w danym katalogu
+
+git add [nazwa_pliku] Dodaje zmiany we wskazanym pliku do commita
+
+git add .Dodaje wszystkie zmienione pliki do commita
+
+git add -p [nazwa_pliku] Udostępnia możliwość dodania wybranych linii w zmodyfikowanym pliku do commita
+
+git commit -m "[treść_commita]" Dodaje opis do commita. Dobrym zwyczajem jest opisanie co ta zmiana wprowadza do kodu w zakresie funkcjonalnym
+
+git add origin [adres_repozytorium, np. https://github.com/username/moje-repozytorium.git]Ustawia konkretny adres zdalnego repozytorium jako główne repozytorium
+
+git push origin master Wysłanie zmian do branacha zdalnego
+
+git push -f Wysłanie zmian do zdalnego repozytorium ignorując konflikty, to znaczy, że jeśli wystapią konflikty to pliki zostaną nadpisane właśnie wysłaną wersją. Trzeba stosować to bardzo ostrożnie.
+
+git checkout [nazwa_brancha] Zmienia aktywny branch na wybrany przez użytkownika
+
+git checkout [nazwa_pliku] Usuwa zmiany w wybranym pliku
+
+git checkout .Usuwa zmiany we wszystkich zmienionych plikach
+
+git checkout -b [nazwa_brancha]Tworzenie nowego brancha z aktywnego brancha i przełączenie się na niego
+
+git rebase master Zaciągnięcie zmian z brancha głównego do brancha aktywnego
+
+git push origin :[nazwa_brancha] Usunięcie zdalnego brancha
+
+git branch -d [nazwa_brancha] Usuwanie brancha lokalnie. Nie można usunąć w ten sposób aktywnego brancha
+
+git stash Dodanie zmienonych plików do pamięci/stosu i usunięcie ich z aktywnego brancha
+
+git pull –rebase Pobranie najnowszych zmian z aktywnego brancha zdalnego
+
+git stash pop Przywrócenie zmodyfikowanych plików z pamięci/stosu
+
+git stash clear Czyszczenie pamięci/stosu
+
+git remote prune origin Pobranie aktualizacji o usuniętych branchach zdalnych
+
+git fetch –allPobranie listy zdalnych branchy
+
+git branch Wyświetlenie listy lokalnych branchy
+
+git branch -r Wyświetlenie listy zdalnych branchy
+
+git status Wyświetlenie listy zmienionych plików
+
+git diff [nazwa_pliku]Szczegółowe wyświetlenie zmian w wybranym pliku
+
+git reset HEADResetowanie przygotowanych commitów (przed wysłaniem). Zmodyfikowane pliki są dostępne do ponownego dodania.
+
+git reset HEAD –hardusuwanie wszystkich zmian z brancha lokalnego i przywrócenie zmian z brancha zdalnegogit reset HEAD^ –hardUsuwanie ostatniego commita z brancha
+
+git reset HEAD^^
+git reset HEAD~2Obydwie komendy usuwają ostatnie 2 zmiany z brancha. Im więcej daszków (^) tym więcej commitów zostanie usuniętych.
+
+git rebase -i HEAD~3 Interaktywne zmienianie zawartości, opisów commitów. Commity mozna łączyć wtedy w jeden duży, zmienić jego opis, itd.
+- Config
+

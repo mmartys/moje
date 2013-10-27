@@ -1,0 +1,31 @@
+imap syso System.out.println();<Esc>hi
+imap sysq System.out.println("");<Esc>hhi
+imap pfss public static final String ;<Esc>ha
+imap pfst public static final String[] ;<Esc>ha
+imap rfst private static final String[] ;<Esc>ha
+imap rfss private static final String ;<Esc>ha
+imap pfsi public static final int ;<Esc>ha
+imap rfsi private static final int ;<Esc>ha
+imap mein public static void main(String[] args){}<Esc>kA
+imap tmein public static void main(String[] args) throws InterruptedException{}<Esc>kA
+
+se et
+se sts=4
+se sw=4
+se guifont=Andale\ Mono\ 9
+se syntax=ON
+se si "smart indent
+"se [no]nu - w³±cza numerowanie linii!
+se nowrap
+se tw=128 "szerokosc linii
+
+"auto indent
+"se ai
+
+"se syntax=cvs_cnfl
+"syn on 
+"se guifont=-monotype-andale\ mono-medium-r-normal-*-*-120-*-*-m-*-iso8859-2
+"se langmenu=pl_PL.ISO_8859-2
+
+se enc=utf-8
+se fenc=utf-8
