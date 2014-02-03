@@ -1,4 +1,5 @@
 # not necessary - gitignore_global should work
-.class
-.java~
+**/*.class
+*~
 *_
+*.swp
