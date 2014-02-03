@@ -22,3 +22,6 @@ wykrywanie branchy cvs
 
 cvs stat 2>&1 | /home/mmartys/moje/bash/branchSed.sh
 ---
+
+#get rid of /jsp/:
+for i in *css; do sed -e "s/\/jsp\//\//g" $i > ${i}_sed; mv ${i}_sed ${i};done
